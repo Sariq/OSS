@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "projects": {
+    "music": {
+      "projectType": "application",
+      "root": "apps/music",
+      "sourceRoot": "apps/music/src",
+      "prefix": "oss",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/music",
+            "index": "apps/music/src/index.html",
+            "main": "apps/music/src/main.ts",
+            "polyfills": "apps/music/src/polyfills.ts",
+            "tsConfig": "apps/music/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/music/src/favicon.ico", "apps/music/src/assets"],
+            "styles": ["apps/music/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/music/src/environments/environment.ts",
+                  "with": "apps/music/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "music:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "music:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "music:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/music/src/**/*.ts",
+              "apps/music/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/music"],
+          "options": {
+            "jestConfig": "apps/music/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "music-e2e": {
+      "root": "apps/music-e2e",
+      "sourceRoot": "apps/music-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/music-e2e/cypress.json",
+            "tsConfig": "apps/music-e2e/tsconfig.e2e.json",
+            "devServerTarget": "music:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "music:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/music-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "music"
+}
