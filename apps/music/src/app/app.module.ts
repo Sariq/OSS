@@ -2,10 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule, authRoutes } from '@oss/auth';
+import { RouterModule, Routes } from '@angular/router';
+const routes: Routes = [
+  { path: '', loadChildren: () => import('@oss/auth').then(m => m.AuthModule) },
+ 
+];
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AuthModule,
+    RouterModule.forRoot(routes),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
